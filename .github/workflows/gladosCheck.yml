@@ -51,9 +51,10 @@ jobs:
         PUSHDEER_SENDKEY: ${{ secrets.PUSHDEER_SENDKEY }}
         FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
         GLADOS_COOKIES: ${{ secrets.GLADOS_COOKIES }}
-        GLADOS_EXCHANGE_PLAN: ${{ secrets.GLADOS_EXCHANGE_PLAN }}
-        GLADOS_DOMAINS: ${{ secrets.GLADOS_DOMAINS }}
-        GLADOS_VERBOSE: ${{ secrets.GLADOS_VERBOSE }}
+        # 以下为非敏感配置, 优先读取 Variables, 这样 Actions 日志里不会被打码成 ***, 便于排查问题
+        GLADOS_EXCHANGE_PLAN: ${{ vars.GLADOS_EXCHANGE_PLAN || secrets.GLADOS_EXCHANGE_PLAN }}
+        GLADOS_DOMAINS: ${{ vars.GLADOS_DOMAINS || secrets.GLADOS_DOMAINS }}
+        GLADOS_VERBOSE: ${{ vars.GLADOS_VERBOSE || secrets.GLADOS_VERBOSE }}
 
     - name: Keep alive
       uses: liskin/gh-workflow-keepalive@v1 

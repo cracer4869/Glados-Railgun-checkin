@@ -34,7 +34,7 @@
 
 3. 配置积分兑换策略（非必须）
 
-- 添加1个`repository secret`，命名为`GLADOS_EXCHANGE_PLAN`，配置自动兑换积分策略：
+- 在`Settings`->`Secrets and variables`->`Actions`->`Variables`页签下添加1个`repository variable`，命名为`GLADOS_EXCHANGE_PLAN`，配置自动兑换积分策略：
 
 | 值 | 积分要求 | 兑换天数 | 单天成本 |
 |---|---------|---------|---------|
@@ -47,10 +47,13 @@
 > 脚本只在**积分达标时**才会调用兑换接口，未达标只记录 `积分未达标: x/y`，不会产生无意义的失败请求。
 > 因此按每天约 10 积分计算：`plan100` 约 10 天兑换一次，`plan200` 约 20 天一次，`plan500` 约 50 天一次。
 > 积分利用率上 `plan500` 最划算（5 积分/天），`plan100` 最贵（10 积分/天）。
+>
+> 该项属于非敏感配置，放在 `Variables` 里 Actions 日志不会打码成 `***`，方便排查问题；
+> 放在 `Secrets` 里同样生效（`Variables` 优先）。
 
 4. 指定签到域名（非必须）
 
-- 添加1个`repository secret`，命名为`GLADOS_DOMAINS`，多个域名用 `,` 分隔，例如 `glados.cloud,railgun.info`。
+- 添加1个`repository variable`，命名为`GLADOS_DOMAINS`，多个域名用 `,` 分隔，例如 `glados.cloud,railgun.info`。
 
 > 不配置时默认同时签到 `glados.cloud` 和 `railgun.info`。
 > 如果账号只存在于其中一个站点，另一个站点会每次都返回"签到失败"造成推送噪音，
