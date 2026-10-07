@@ -26,11 +26,19 @@
 
 - 点击第一个选项卡后在`Request Headers`下找到`Cookie`，右键复制cookie的值即可
 
-  > 参考格式：koa:sess=eyJ1c2xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxAwMH0=; koa:sess.sig=xJkOxxxxxxxxxxxxxxxtnM;
+  > 参考格式：gld:sess=eyJ1c2xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxAwMH0=; gld:sess.sig=xJkOxxxxxxxxxxxxxxxtnM;
+  >
+  > GLaDOS 已改用 `gld:sess` / `gld:sess.sig`。**不要**再沿用旧版 `koa:sess` / `koa:sess.sig`，
+  > 也不要把旧 Cookie 改名冒充新 Cookie——两者对应的是不同版本的会话机制，旧值会直接返回
+  > `code : -2, message : 没有权限`（脚本会在日志里给出该提示）。
 
 ![图片加载失败](imgs/3.png)
 
 - 多账号请在 `COOKIES` 中 添加多个 `cookies` 中间使用 `&`连接即可。（例如： `c1&c3&c3...`）
+
+> **设备校验**：新版签到会核对登录设备。脚本默认会自适应——首次遇到
+> `code : 4, reason : device-mismatch` 时，自动读取服务端返回的 `loginDevice` 并切换对应平台 UA 重试，
+> 一般无需手动配置。若长期仍失败，请在 `glados.cloud` 重新登录并手动签到一次，再刷新 Cookie。
 
 3. 配置积分兑换策略（非必须）
 
@@ -59,7 +67,13 @@
 > 如果账号只存在于其中一个站点，另一个站点会每次都返回"签到失败"造成推送噪音，
 > 此时只填写实际使用的域名即可（例如仅 `glados.cloud`）。
 
-5. 消息推送（非必须，两种可同时配置）
+5. 指定签到 User-Agent（非必须）
+
+- 添加1个`repository variable`，命名为`GLADOS_USER_AGENT`，值为**你登录时所用浏览器**的 User-Agent。
+
+> 不配置时脚本使用内置的 Windows Chrome UA，并在遇到设备平台不匹配时自动切换重试。
+> 如果账号曾用手机等其他平台登录过、自适应重试仍失败，就填写对应平台的值（例如 iPhone 的 UA）。
+> 该值不需要完整版本号，**平台标识**（`iPhone` / `Android` / `Macintosh` / `Windows`）才是关键。
 
 **飞书（推荐）**
 

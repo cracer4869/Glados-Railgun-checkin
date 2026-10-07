@@ -54,6 +54,7 @@ jobs:
         # 以下为非敏感配置, 优先读取 Variables, 这样 Actions 日志里不会被打码成 ***, 便于排查问题
         GLADOS_EXCHANGE_PLAN: ${{ vars.GLADOS_EXCHANGE_PLAN || secrets.GLADOS_EXCHANGE_PLAN }}
         GLADOS_DOMAINS: ${{ vars.GLADOS_DOMAINS || secrets.GLADOS_DOMAINS }}
+        GLADOS_USER_AGENT: ${{ vars.GLADOS_USER_AGENT || secrets.GLADOS_USER_AGENT }}
         GLADOS_VERBOSE: ${{ vars.GLADOS_VERBOSE || secrets.GLADOS_VERBOSE }}
 
     - name: Keep alive
